@@ -1,25 +1,22 @@
 class Solution {
     public int trap(int[] height) {
-        int leftmax=0;
-        int rightmax=0;
+        int n=height.length;
+        int premax[]=new int[n];
+        int postmax[]=new int[n];
+        int maxi=Integer.MIN_VALUE;
+        for(int i=0;i<n;i++){
+            premax[i]=Math.max(maxi,height[i]);
+            maxi=premax[i];
+        }
+        maxi=Integer.MIN_VALUE;
+        for(int i=n-1;i>=0;i--){
+            postmax[i]=Math.max(maxi,height[i]);
+            maxi=postmax[i];
+        }
         int total=0;
-        int left=0;
-        int right=height.length-1;
-        while(left<right){
-            if(height[left]<=height[right]){
-                if(leftmax>height[left]){
-                    total+=leftmax-height[left];
-                }else{
-                    leftmax=height[left];
-                }
-                left++;
-            }else{
-                if(rightmax>height[right]){
-                    total+=rightmax-height[right];
-                }else{
-                    rightmax=height[right];
-                }
-                right--;
+        for(int i=0;i<n;i++){
+            if(premax[i]>height[i] && postmax[i]>height[i]){
+                total+=Math.min(premax[i],postmax[i])-height[i];
             }
         }
         return total;
