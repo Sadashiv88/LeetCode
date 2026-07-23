@@ -79,10 +79,10 @@ class Solution {
 
             if(dsu.union(u,v)){
                 cost+=wt;
-                edgesUsed++;
+                // edgesUsed++;
 
-                if(edgesUsed==n-1)
-                    break;
+                // if(edgesUsed==n-1)
+                //     break;
             }
         }
 
