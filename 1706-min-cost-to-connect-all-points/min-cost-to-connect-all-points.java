@@ -14,8 +14,12 @@ class DSU {
     }
 
     int find(int x) {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]);   // Path Compression
+        if (parent[x] == x){
+            return x;
+        }
+        int ul=find(parent[x]);
+        parent[x]=ul;
+               // Path Compression
 
         return parent[x];
     }
