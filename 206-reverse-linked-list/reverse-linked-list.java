@@ -13,11 +13,12 @@ class Solution {
         if(head==null) return null;
         ListNode temp=head;
         ListNode prev=null;
+        ListNode after=null;
         while(temp!=null){
-            ListNode nex=temp.next;
+            after=temp.next;
             temp.next=prev;
             prev=temp;
-            temp=nex;
+            temp=after;
 
         }
         return prev;
