@@ -40,28 +40,23 @@ class Solution {
         // helper(s,0,vis,new StringBuilder());
         // return t;
 
-        int[] freq = new int[26];
-
-        for (char ch : s.toCharArray()) {
-            freq[ch - 'a']++;
+        int freq[]=new int[26];
+        for(char ch:s.toCharArray()){
+            freq[ch-'a']++;
         }
+        StringBuilder left=new StringBuilder("");
+        StringBuilder mid=new StringBuilder("");
+        for(int i=0;i<26;i++){
+            while(freq[i]>=2){
+                left.append((char)('a'+i));
 
-        StringBuilder left = new StringBuilder();
-        StringBuilder mid = new StringBuilder();
-
-        for (int i = 0; i < 26; i++) {
-            while (freq[i] >= 2) {
-                left.append((char) ('a' + i));
-                freq[i] -= 2;
+                freq[i]-=2;
             }
-
-            if (freq[i] == 1) {
-                mid.append((char) ('a' + i));
+            if(freq[i]==1){
+                mid.append((char)('a'+i));
             }
         }
-
-        StringBuilder right = new StringBuilder(left).reverse();
-
-        return left.toString() + mid.toString() + right.toString();
+        StringBuilder right=new StringBuilder(left).reverse();
+        return left.toString()+mid.toString()+right.toString();
     }
 }
