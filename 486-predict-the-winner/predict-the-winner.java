@@ -31,7 +31,7 @@ class Solution {
             return dp[left][right][turn];
         }
 
-        int result;
+        int result=0;
 
         if (turn == 0) {
             // Player 1 maximizes their score
