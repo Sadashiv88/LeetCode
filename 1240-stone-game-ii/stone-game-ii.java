@@ -1,45 +1,52 @@
+
 class Solution {
-    private int[][] memo;
-    private int[] suffix;
-    private int n;
-
     public int stoneGameII(int[] piles) {
-        n = piles.length;
+        int n = piles.length;
+        int[] suffixSum = new int[n];
 
-        // suffix sums
-        suffix = new int[n];
-        suffix[n - 1] = piles[n - 1];
+        suffixSum[n - 1] = piles[n - 1];
+
         for (int i = n - 2; i >= 0; i--) {
-            suffix[i] = suffix[i + 1] + piles[i];
+            suffixSum[i] = piles[i] + suffixSum[i + 1];
         }
 
-        memo = new int[n][n + 1];
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(memo[i], -1);
-        }
+        Integer[][] dp = new Integer[n][n + 1];
 
-        return dfs(0, 1);
+        return solve(0, 1, piles, suffixSum, dp);
     }
 
-    private int dfs(int i, int m) {
-        if (i >= n) return 0;
+    private int solve(int i, int M, int[] piles,
+                      int[] suffixSum, Integer[][] dp) {
+        int n = piles.length;
 
-        // Can take all remaining piles
-        if (2 * m >= n - i) {
-            return suffix[i];
+        if (i >= n) {
+            return 0;
         }
 
-        if (memo[i][m] != -1) {
-            return memo[i][m];
+        if (2 * M >= n - i) {
+            return suffixSum[i];
         }
 
-        int best = 0;
-
-        for (int x = 1; x <= 2 * m; x++) {
-            best = Math.max(best,
-                    suffix[i] - dfs(i + x, Math.max(m, x)));
+        if (dp[i][M] != null) {
+            return dp[i][M];
         }
 
-        return memo[i][m] = best;
+        int maxStones = 0;
+
+        for (int X = 1; X <= 2 * M; X++) {
+            int opponent = solve(
+                i + X,
+                Math.max(M, X),
+                piles,
+                suffixSum,
+                dp
+            );
+
+            int current = suffixSum[i] - opponent;
+
+            maxStones = Math.max(maxStones, current);
+        }
+
+        return dp[i][M] = maxStones;
     }
 }
