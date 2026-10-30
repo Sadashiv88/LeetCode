@@ -14,7 +14,7 @@ class Solution {
             maxi=postmax[i];
         }
         int total=0;
-        for(int i=0;i<n;i++){
+        for(int i=1;i<n-1;i++){
             if(premax[i]>height[i] && postmax[i]>height[i]){
                 total+=Math.min(premax[i],postmax[i])-height[i];
             }
