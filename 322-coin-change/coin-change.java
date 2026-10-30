@@ -1,27 +1,30 @@
 class Solution {
-   public int fun(int[] arr, int sum, int i, int[][] dp) {
-        if (i == 0) {
-            if (sum % arr[i] == 0) {
-                return sum / arr[i];
-            }
-            return Integer.MAX_VALUE-1;
+    public int rec(int i,int []coins,int k,int [][]dp){
+        if(i==0){
+            if(k%coins[0]==0) return k/coins[0];
+            else return (int) 1e8;
         }
-        if (dp[i][sum] != -1) {
-            return dp[i][sum];
-        }
-        int take = Integer.MAX_VALUE-1;
-        if (arr[i] <= sum) {
-            take = 1 + fun(arr, sum - arr[i], i,  dp);
-        }
-        int notTake = fun(arr, sum, i - 1,  dp);
-        return dp[i][sum] = Math.min(take, notTake);
+        if(dp[i][k]!=-1) return dp[i][k];
+        int pick=(int)1e8;
+        if(k>=coins[i]) pick=1+rec(i,coins,k-coins[i],dp);
+        int notpick=rec(i-1,coins,k,dp);
+        return dp[i][k]=Math.min(pick,notpick);
     }
     public int coinChange(int[] coins, int amount) {
-        int[][] dp = new int[coins.length + 1][amount + 1];
-        for (int[] arr : dp) {
-            Arrays.fill(arr, -1);
+        int n=coins.length;
+       if (amount == 0)
+            return 0;
+       
+         
+        int dp[][]=new int[n+1][amount+1];
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=amount;j++){
+                dp[i][j]=-1;
+            }
         }
-        int ans = fun(coins, amount, coins.length - 1, dp);
-        return ans == Integer.MAX_VALUE-1 ? -1 : ans;
+        
+        int ans = rec(n - 1, coins, amount, dp);
+
+        return ans >= (int) 1e8 ? -1 : ans;
     }
 }
