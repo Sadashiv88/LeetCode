@@ -41,6 +41,6 @@ class Solution {
             }
         }
 
-        return nums.length;
+        return 0;
     }
 }
